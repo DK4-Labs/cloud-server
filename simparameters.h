@@ -27,12 +27,14 @@
 
 /*******************************************************************************/
 
-#define NUMBER_OF_STATIONS 10
-#define MEAN_PACKET_DURATION 1      /* normalized packet Tx time */
-#define PACKET_ARRIVAL_RATE 0.1     /* packets per Tx time */
-#define MEAN_BACKOFF_DURATION 10    /* in units of packet transmit time, Tx */
+#define NUMBER_OF_MOBILE_DEVICES 2
 #define RUNLENGTH 70000000
 #define BLIPRATE 100000
+#define UPLOAD_GOOD 1
+#define UPLOAD_BAD 10
+#define SERVICE_GOOD 1
+#define SERVICE_BAD 10
+#define PACKET_ARRIVAL_RATE 3
 
 /* Comma separated list of random seeds to run. */
 #define RANDOM_SEED_LIST 333333, 222222, 44444

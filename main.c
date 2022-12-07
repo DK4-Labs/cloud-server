@@ -1,25 +1,3 @@
-
-/*
- * Simulation_Run of the ALOHA Protocol
- * 
- * Copyright (C) 2014 Terence D. Todd Hamilton, Ontario, CANADA
- * todd@mcmaster.ca
- * 
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 3 of the License, or (at your option)
- * any later version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- * more details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- */
-
 /*******************************************************************************/
 
 #include <stdlib.h>
@@ -31,6 +9,7 @@
 #include "cleanup.h"
 #include "packet_arrival.h"
 #include "packet_transmission.h"
+#include "cloud_server.h"
 #include "main.h"
 
 /*******************************************************************************/
@@ -41,6 +20,8 @@ main(void)
   /* Get the list of random number generator seeds defined in simparameters.h */
   unsigned random_seed;
   unsigned RANDOM_SEEDS[] = {RANDOM_SEED_LIST, 0};
+  mobile_device_t mobile_devices_arr[NUMBER_OF_MOBILE_DEVICES] = { 0 };
+  double job_execution_times[NUMBER_OF_MOBILE_DEVICES] = { 1, 1 };
 
   Simulation_Run_Ptr simulation_run;
   Simulation_Run_Data data;
@@ -60,28 +41,29 @@ main(void)
     simulation_run_set_data(simulation_run, (void *) & data);
 
     /* Create and initalize the stations. */
-    data.stations = (Station_Ptr) xcalloc((unsigned int) NUMBER_OF_STATIONS,
-					  sizeof(Station));
+
+    data.mobile_devices = mobile_devices_arr;
 
     /* Initialize various simulation_run variables. */
-    data.blip_counter = 0;
+    // data.blip_counter = 0;
     data.arrival_count = 0;
-    data.number_of_packets_processed = 0;
-    data.number_of_collisions = 0;
+    data.packets_uploaded = 0;
+    data.packets_processed = 0;
     data.accumulated_delay = 0.0;
     data.random_seed = random_seed;
     
     /* Initialize the stations. */
-    for(i=0; i<NUMBER_OF_STATIONS; i++) {
-      (data.stations+i)->id = i;
-      (data.stations+i)->buffer = fifoqueue_new();
-      (data.stations+i)->packet_count = 0;
-      (data.stations+i)->accumulated_delay = 0.0;
-      (data.stations+i)->mean_delay = 0;
+    for(i=0; i<NUMBER_OF_MOBILE_DEVICES; i++) {
+      (data.mobile_devices[i]).id = i;
+      (data.mobile_devices[i]).fifoqueue = fifoqueue_new();
+      // &(data.mobile_devices[i])->packet_count = 0;
+      // &(data.mobile_devices[i])->accumulated_delay = 0.0;
+      // &(data.mobile_devices[i])->mean_delay = 0;
     }
 
+
     /* Create and initialize the channel. */
-    data.channel = channel_new();
+    data.cloud_server = cloud_server_new();
 
     /* Schedule initial packet arrival. */
     schedule_packet_arrival_event(simulation_run, 
@@ -89,7 +71,7 @@ main(void)
 		    exponential_generator((double) 1/PACKET_ARRIVAL_RATE));
 
     /* Execute events until we are finished. */
-    while(data.number_of_packets_processed < RUNLENGTH) {
+    while(data.packets_processed < RUNLENGTH) {
       simulation_run_execute_event(simulation_run);
     }
 

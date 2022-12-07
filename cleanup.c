@@ -38,15 +38,14 @@ cleanup (Simulation_Run_Ptr simulation_run)
   data = (Simulation_Run_Data_Ptr) simulation_run_data(simulation_run);
 
   /* Clean out the stations. */
-  for(i=0; i<NUMBER_OF_STATIONS; i++) {
-    while (fifoqueue_size((data->stations+i)->buffer) > 0) {
-      xfree(fifoqueue_get((data->stations+i)->buffer));
+  for(i=0; i<NUMBER_OF_MOBILE_DEVICES; i++) {
+    while (fifoqueue_size((data->mobile_devices+i)->fifoqueue) > 0) {
+      xfree(fifoqueue_get((data->mobile_devices+i)->fifoqueue));
     }
   }
-  xfree(data->stations);
 
   /* Clean out the channel. */
-  xfree(data->channel);
+  xfree(data->cloud_server);
 
   /* Clean up the simulation_run. */
   simulation_run_free_memory(simulation_run);

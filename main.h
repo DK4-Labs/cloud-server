@@ -32,7 +32,7 @@
 
 #include "simlib.h"
 #include "simparameters.h"
-#include "channel.h"
+// #include "channel.h"
 
 /**********************************************************************/
 
@@ -41,37 +41,47 @@ typedef Fifoqueue_Ptr Buffer_Ptr;
 
 /**********************************************************************/
 
-typedef struct _station_
+
+typedef struct _mobile_device_
 {
   int id;
-  Buffer_Ptr buffer;
-  long int packet_count;
   double accumulated_delay;
-  double mean_delay;
-} Station, * Station_Ptr;
+  int packets_processed;
+  Buffer_Ptr fifoqueue;
+  long int arrival_count;
+  // double accumulated_delay;
+  // double mean_delay;
+} mobile_device_t;
+
+typedef struct _cloud_server_
+{
+  Buffer_Ptr fifoqueue;
+  // long int packet_count;
+  // double accumulated_delay;
+  // double mean_delay;
+} cloud_server_t;
 
 /**********************************************************************/
 
-typedef enum {WAITING, TRANSMITTING} Packet_Status;
+typedef enum {WAITING, UPLOADING, TRANSMITTING} Packet_Status;
 
 typedef struct _packet_ 
 {
-  double arrive_time;
-  double service_time;
-  int station_id;
+  double arrive_time; 
+  double service_time;  // Jb or Jg
+  double upload_time;   // Ub or Ug
+  int mobile_device_id;
   Packet_Status status;
-  int collision_count;
-} Packet, * Packet_Ptr;
+} packet_t;
 
 typedef struct _simulation_run_data_
 {
-  Station_Ptr stations;
-  Channel_Ptr channel;
-  long int blip_counter;
+  mobile_device_t * mobile_devices;
+  cloud_server_t * cloud_server;
+  // long int blip_counter;
   long int arrival_count;
+  long int packets_uploaded;
   long int packets_processed;
-  long int number_of_packets_processed;
-  long int number_of_collisions;
   double accumulated_delay;
   unsigned random_seed;
 } Simulation_Run_Data, * Simulation_Run_Data_Ptr;
