@@ -21,7 +21,9 @@ main(void)
   unsigned random_seed;
   unsigned RANDOM_SEEDS[] = {RANDOM_SEED_LIST, 0};
   mobile_device_t mobile_devices_arr[NUMBER_OF_MOBILE_DEVICES] = { 0 };
-  double job_execution_times[NUMBER_OF_MOBILE_DEVICES] = { 1, 1 };
+
+  // FILE *pSave;
+  // pSave = fopen("output/sim_data.txt", "w");
 
   Simulation_Run_Ptr simulation_run;
   Simulation_Run_Data data;
@@ -55,6 +57,8 @@ main(void)
     /* Initialize the stations. */
     for(i=0; i<NUMBER_OF_MOBILE_DEVICES; i++) {
       (data.mobile_devices[i]).id = i;
+      (data.mobile_devices[i]).accumulated_delay = 0.0;
+      (data.mobile_devices[i]).packets_processed = 0.0;
       (data.mobile_devices[i]).fifoqueue = fifoqueue_new();
       // &(data.mobile_devices[i])->packet_count = 0;
       // &(data.mobile_devices[i])->accumulated_delay = 0.0;

@@ -4,6 +4,7 @@
         "simlib.h": "c",
         "main.h": "c",
         "simparameters.h": "c",
-        "output.h": "c"
+        "output.h": "c",
+        "upload_duration.h": "c"
     }
 }

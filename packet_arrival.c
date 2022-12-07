@@ -7,6 +7,7 @@
 #include "upload_duration.h"
 #include "packet_transmission.h"
 #include "packet_arrival.h"
+#include "packet_upload.h"
 
 /*******************************************************************************/
 

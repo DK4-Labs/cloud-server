@@ -5,4 +5,9 @@
 
 /*******************************************************************************/
 
+#include "trace.h"
+#include "main.h"
+
+void output_results(Simulation_Run_Ptr);
+
 #endif

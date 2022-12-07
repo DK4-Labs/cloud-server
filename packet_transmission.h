@@ -12,6 +12,11 @@
 /*
  * Function prototypes
  */
+void
+transmission_arrival_event(Simulation_Run_Ptr, void *);
+
+long int
+schedule_transmission_arrival_event(Simulation_Run_Ptr, Time, void *);
 
 void
 transmission_start_event(Simulation_Run_Ptr, void *);

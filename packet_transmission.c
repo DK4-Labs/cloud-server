@@ -51,12 +51,12 @@ void
 transmission_start_event(Simulation_Run_Ptr simulation_run, void * packet)
 {
     packet_t * this_packet;
-    Buffer_Ptr cloud_server_queue;
+    // Buffer_Ptr cloud_server_queue;
     Simulation_Run_Data_Ptr data;
 
     this_packet = (packet_t *) packet;
     data = (Simulation_Run_Data_Ptr) simulation_run_data(simulation_run);
-    cloud_server_queue = data->cloud_server->fifoqueue;
+    // cloud_server_queue = data->cloud_server->fifoqueue;
 
     schedule_transmission_end_event(simulation_run, simulation_run_get_time(simulation_run) + this_packet->service_time, packet);
 }
@@ -90,7 +90,7 @@ transmission_end_event(Simulation_Run_Ptr simulation_run, void * packet)
     device = &(data->mobile_devices[this_packet->mobile_device_id]);
     device->packets_processed++;
 
-    delay = simulation_run_gettime(simulation_run) - 
+    delay = simulation_run_get_time(simulation_run) - 
         this_packet->arrive_time;
     device->accumulated_delay += delay;
     data->accumulated_delay += delay;
