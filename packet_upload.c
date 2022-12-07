@@ -64,11 +64,12 @@ upload_end_event(Simulation_Run_Ptr simulation_run, void * packet)
     data->packets_uploaded++;
     queue = (data->mobile_devices[(this_packet->mobile_device_id)]).fifoqueue;
 
-    if (fifoqueue_get(queue) != packet)
-    {
-        printf("\nBADDDDDDDDDDY >:)\n");
-        exit(1);
-    }
+    fifoqueue_get(queue);
+    // if (fifoqueue_get(queue) != packet)
+    // {
+    //     printf("\nBADDDDDDDDDDY >:)\n");
+    //     exit(1);
+    // }
 
     schedule_transmission_start_event(simulation_run, simulation_run_get_time(simulation_run), (void *) this_packet);
 

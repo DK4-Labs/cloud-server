@@ -30,11 +30,11 @@
 #define NUMBER_OF_MOBILE_DEVICES 2
 #define RUNLENGTH 70000000
 #define BLIPRATE 100000
-#define UPLOAD_GOOD 1
-#define UPLOAD_BAD 10
+#define UPLOAD_GOOD 0.1
+#define UPLOAD_BAD 1
 #define SERVICE_GOOD 1
-#define SERVICE_BAD 10
-#define PACKET_ARRIVAL_RATE 3
+#define SERVICE_BAD 1
+#define PACKET_ARRIVAL_RATE 0.04
 
 /* Comma separated list of random seeds to run. */
 #define RANDOM_SEED_LIST 333333, 222222, 44444

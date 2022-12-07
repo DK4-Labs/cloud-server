@@ -17,7 +17,7 @@ void output_results(Simulation_Run_Ptr this_simulation_run)
     printf("Total Mean Delay = %f \n ", sim_data->accumulated_delay / sim_data->packets_processed);
     for(int i = 0; i < NUMBER_OF_MOBILE_DEVICES; i++)
     {
-        printf("Mean Delay of Mobile Device %d = %f \n", i,(sim_data->mobile_devices[i]).accumulated_delay / (sim_data->mobile_devices[i]).accumulated_delay);
+        printf("Mean Delay of Mobile Device %d = %f \n", i,(sim_data->mobile_devices[i]).accumulated_delay / (sim_data->mobile_devices[i]).packets_processed);
     }
     // printf("Arrival Rate = %f \n", );
 

@@ -81,6 +81,7 @@ transmission_end_event(Simulation_Run_Ptr simulation_run, void * packet)
     mobile_device_t * device;
     Buffer_Ptr cloud_server_queue;
     double delay;
+    Time now = simulation_run_get_time(simulation_run);
     
     data = (Simulation_Run_Data_Ptr) simulation_run_data(simulation_run);
     this_packet = (packet_t *) packet;
@@ -96,10 +97,12 @@ transmission_end_event(Simulation_Run_Ptr simulation_run, void * packet)
     data->accumulated_delay += delay;
 
     cloud_server_queue = data->cloud_server->fifoqueue;
-    if (fifoqueue_get(cloud_server_queue) != packet)
-    {
-        exit(1);
-    }
+    fifoqueue_get(cloud_server_queue);
+    // if (fifoqueue_get(cloud_server_queue) != packet)
+    // {
+    //     printf("\nhereeeeee\n");
+    //     exit(1);
+    // }
 
     xfree((void *) this_packet);
 
