@@ -14,33 +14,33 @@
 
 /*******************************************************************************/
 
-int
-main(void)
+int main(void)
 {
   /* Get the list of random number generator seeds defined in simparameters.h */
   unsigned random_seed;
   unsigned RANDOM_SEEDS[] = {RANDOM_SEED_LIST, 0};
-  mobile_device_t mobile_devices_arr[NUMBER_OF_MOBILE_DEVICES] = { 0 };
+  mobile_device_t mobile_devices_arr[NUMBER_OF_MOBILE_DEVICES] = {0};
 
-  // FILE *pSave;
-  // pSave = fopen("output/sim_data.txt", "w");
+  FILE *pSave;
+  pSave = fopen("output/sim_data.txt", "w");
 
   Simulation_Run_Ptr simulation_run;
   Simulation_Run_Data data;
-  int i, j=0;
+  int i, j = 0;
 
   /* Do a new simulation_run for each random number generator seed. */
-  while ((random_seed = RANDOM_SEEDS[j++]) != 0) {
+  while ((random_seed = RANDOM_SEEDS[j++]) != 0)
+  {
 
     /* Set the random generator seed. */
     random_generator_initialize(random_seed);
 
     /* Create a new simulation_run. This gives a clock and
        eventlist. Clock time is set to zero. */
-    simulation_run = (Simulation_Run_Ptr) simulation_run_new();
+    simulation_run = (Simulation_Run_Ptr)simulation_run_new();
 
     /* Add our data definitions to the simulation_run. */
-    simulation_run_set_data(simulation_run, (void *) & data);
+    simulation_run_set_data(simulation_run, (void *)&data);
 
     /* Create and initalize the stations. */
 
@@ -53,9 +53,10 @@ main(void)
     data.packets_processed = 0;
     data.accumulated_delay = 0.0;
     data.random_seed = random_seed;
-    
+
     /* Initialize the stations. */
-    for(i=0; i<NUMBER_OF_MOBILE_DEVICES; i++) {
+    for (i = 0; i < NUMBER_OF_MOBILE_DEVICES; i++)
+    {
       (data.mobile_devices[i]).id = i;
       (data.mobile_devices[i]).accumulated_delay = 0.0;
       (data.mobile_devices[i]).packets_processed = 0.0;
@@ -65,41 +66,30 @@ main(void)
       // &(data.mobile_devices[i])->mean_delay = 0;
     }
 
-
     /* Create and initialize the channel. */
     data.cloud_server = cloud_server_new();
 
     /* Schedule initial packet arrival. */
-    schedule_packet_arrival_event(simulation_run, 
-		    simulation_run_get_time(simulation_run) +
-		    exponential_generator((double) 1/PACKET_ARRIVAL_RATE));
+    schedule_packet_arrival_event(simulation_run,
+                                  simulation_run_get_time(simulation_run) +
+                                      exponential_generator((double)1 / PACKET_ARRIVAL_RATE));
 
     /* Execute events until we are finished. */
-    while(data.packets_processed < RUNLENGTH) {
+    while (data.packets_processed < RUNLENGTH)
+    {
       simulation_run_execute_event(simulation_run);
     }
 
     /* Print out some results. */
-    output_results(simulation_run);
+    output_results(simulation_run, &pSave);
 
     /* Clean up memory. */
     cleanup(simulation_run);
   }
 
   /* Pause before finishing. */
+  fclose(pSave);
   getchar();
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-

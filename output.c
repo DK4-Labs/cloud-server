@@ -7,7 +7,7 @@
 
 /*******************************************************************************/
 
-void output_results(Simulation_Run_Ptr this_simulation_run)
+void output_results(Simulation_Run_Ptr this_simulation_run, FILE **writeFile)
 {
     Simulation_Run_Data_Ptr sim_data;
 
@@ -15,13 +15,13 @@ void output_results(Simulation_Run_Ptr this_simulation_run)
     printf("\n");
     printf("Random Seed = %d \n", sim_data->random_seed);
     printf("Total Mean Delay = %f \n ", sim_data->accumulated_delay / sim_data->packets_processed);
-    for(int i = 0; i < NUMBER_OF_MOBILE_DEVICES; i++)
+    printf("Arrival Rate = %d \n", PACKET_ARRIVAL_RATE);
+    for (int i = 0; i < NUMBER_OF_MOBILE_DEVICES; i++)
     {
-        printf("Mean Delay of Mobile Device %d = %f \n", i,(sim_data->mobile_devices[i]).accumulated_delay / (sim_data->mobile_devices[i]).packets_processed);
+        printf("Mean Delay of Mobile Device %d = %f \n", i, (sim_data->mobile_devices[i]).accumulated_delay / (sim_data->mobile_devices[i]).packets_processed);
+        fprintf(*writeFile, "%d, %f, %f, %d, %f \n", sim_data->random_seed, sim_data->accumulated_delay / sim_data->packets_processed, PACKET_ARRIVAL_RATE, i, (sim_data->mobile_devices[i]).accumulated_delay / (sim_data->mobile_devices[i]).packets_processed);
     }
     // printf("Arrival Rate = %f \n", );
 
-    //fprintf(*writeFile, "%.1f, %f, %f \n", sim_data->accumulated_delay / sim_data->number_of_packets_processed, (double)(sim_data->number_of_collisions + sim_data->number_of_packets_processed) / sim_data->number_of_packets_processed, PACKET_ARRIVAL_RATE);
-
-
+    // fprintf(*writeFile, "%.1f, %f, %f \n", sim_data->accumulated_delay / sim_data->number_of_packets_processed, (double)(sim_data->number_of_collisions + sim_data->number_of_packets_processed) / sim_data->number_of_packets_processed, PACKET_ARRIVAL_RATE);
 }
