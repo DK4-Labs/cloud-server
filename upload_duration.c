@@ -1,9 +1,9 @@
-#include "service_duration.h"
+#include "upload_duration.h"
 
 /*******************************************************************************/
 
 double
-get_service_duration(int id)
+get_upload_duration(int id)
 {
   if(id == 0)
   {
