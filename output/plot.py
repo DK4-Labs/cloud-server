@@ -99,8 +99,8 @@ def main():
 
     # offered= [3, 6, 9, 12, 15, 18]
 
-    plt.plot(list, list1, label="Device 1")
-    plt.plot(list, list2, label="Device 2")
+    plt.plot(list, list1, label="Device 1 (Bad Connection)")
+    plt.plot(list, list2, label="Device 2 (Good Connection)")
 
     print(list)
 
@@ -114,8 +114,8 @@ def main():
     # plt.plot(offered, final[7], label="Channel = 8")
 
     # plt.legend()
-    plt.xlabel("Arrival rate")
-    plt.ylabel("Mean Delay")
+    plt.xlabel("Arrival rate (Jobs/Seconds)")
+    plt.ylabel("Mean Delay (Seconds)")
     plt.title("Mean Delay vs Arrival Rate")
     plt.legend()
     plt.show()
